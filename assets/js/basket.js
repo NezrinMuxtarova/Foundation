@@ -33,10 +33,10 @@ function drawTable(data) {
 
 function incBtn(id, btn) {
   let inc = basket.find((item) => item.id === id);
-let incremenet=[inc]
+
   inc.count += 1
 
-  drawTable(incremenet);
+  drawTable(basket);
   setBasketFromStroge(basket);
   calculateBasket(basket.length);
   totalPrice();
@@ -45,7 +45,7 @@ let incremenet=[inc]
 
 function decBtn(id,button) {
   let dec = basket.find((item) => item.id ===id);
-let decremenet=[dec]
+
   if (dec.count > 0) {
     dec.count -= 1;
 
@@ -53,7 +53,7 @@ let decremenet=[dec]
     console.log(button.closest("tr"));
     button.closest("tr").remove();
 }
-  drawTable(decremenet);
+  drawTable(basket);
   setBasketFromStroge(basket);
   calculateBasket(basket.length);
   totalPrice();
