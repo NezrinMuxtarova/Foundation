@@ -1,9 +1,19 @@
 const BASE_URL = "http://localhost:8000/product";
 const product = document.querySelector(".product");
+const loadmore=document.querySelector(".load")
+const favCount=document.querySelector(".fav-count")
+const basketCount=document.querySelector(".basket-count")
+let favori=getFavFromStroge()
+let basket=getFavFromStroge()
+calculate(favori.length)
+calculateBasket()
+let limit=3
+let array=null
 async function getData() {
   let res = await axios(`${BASE_URL}`);
   console.log(res.data);
-  drawCard(res.data);
+  array=res.data
+  drawCard(res.data.slice(0,limit));
 }
 getData();
 
@@ -18,8 +28,8 @@ function drawCard(data) {
    <div class="p-text">
        <h5>${element.title}</h5>
        <p>${element.desc}</p>
-       <i class="fa-regular fa-heart"></i>
-       <i class="fa-solid fa-cart-shopping"></i>
+       <i class="${favori.some((item)=>item.id===element.id) ? "fa-solid fa-heart" : "fa-regular fa-heart"}" onclick=favIcon(${element.id},this)></i>
+       <i class="fa-solid fa-cart-shopping" onclick=basketCount(${element.id},this)></i>
 
        <a href="details.html?id=${element.id}"><i class="fa-brands fa-readme"></i></a>
 
@@ -32,5 +42,55 @@ function drawCard(data) {
 }
  
 
+function favIcon(id,icon){
+    if (icon.className==="fa-regular fa-heart") {
+        icon.className="fa-solid fa-heart"
+    }else{
+        icon.className="fa-regular fa-heart"
+    }
+
+    let favs=getFavFromStroge()
+    let bool=favs.find((item)=>item.id===id)
+    let favProduct=array.find((item)=>item.id===id)
+
+    if (bool) {
+        favs=favs.filter((item)=>item.id !==id)
+    }else{
+        favs.push(favProduct)
+    }
+
+    setFavFromStroge(favs)
+    calculate(favs.length)
+}
 
 
+
+loadmore.addEventListener("click", function(){
+    limit+=3
+    if (limit>=array.length) {
+        this.remove()
+    }
+    drawCard(array.slice(0,limit))
+})
+
+
+
+
+
+
+function setFavFromStroge(favs){
+    localStorage.setItem("favs", JSON.stringify(favs))
+}
+
+function getFavFromStroge(){
+    return JSON.parse(localStorage.getItem("favs")) ?? []
+}
+
+function calculate(count){
+    favCount.textContent=count
+}
+
+
+function calculateBasket(){
+basketCount=basket.reduce((acc,curr))
+}
