@@ -46,7 +46,7 @@ let incremenet=[inc]
 function decBtn(id,button) {
   let dec = basket.find((item) => item.id ===id);
 let decremenet=[dec]
-  if (dec.count > 1) {
+  if (dec.count > 0) {
     dec.count -= 1;
 
   } else{
