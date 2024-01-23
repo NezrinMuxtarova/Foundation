@@ -4,7 +4,7 @@ const loadmore=document.querySelector(".load")
 const favCount=document.querySelector(".fav-count")
 const basketCount=document.querySelector(".basket-count")
 let favori=getFavFromStroge()
-let basket=getFavFromStroge()
+let basket=getBasketFromStroge()
 calculate(favori.length)
 calculateBasket()
 let limit=3
@@ -81,14 +81,14 @@ loadmore.addEventListener("click", function(){
 
 function basketIcon(id,btn){
     let basketProduct=array.find((item)=>item.id===id)
-    let index=basket.find((item)=>item.id===id)
-    
-    if (index>-1) {
-        basket[index].count=basket[index].count+1 
+    let index=basket.findIndex((item)=>item.id===id)
+    if (index >-1) {
+        basket[index].count += 1 
     }else{
         basket.push({count:1, ...basketProduct})
     }
-    setFavFromStroge(basket)
+    console.log(basket);
+    setBasketFromStroge(basket)
     calculateBasket(basket.length)
 }
 
@@ -98,6 +98,13 @@ function setFavFromStroge(favs){
 
 function getFavFromStroge(){
     return JSON.parse(localStorage.getItem("favs")) ?? []
+}
+function setBasketFromStroge(basket){
+    localStorage.setItem("basket", JSON.stringify(basket))
+}
+
+function getBasketFromStroge(){
+    return JSON.parse(localStorage.getItem("basket")) ?? []
 }
 
 function calculate(count){

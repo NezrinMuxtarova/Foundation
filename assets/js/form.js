@@ -5,6 +5,7 @@ const allInput = document.querySelectorAll("input");
 const search = document.querySelector(".search");
 const sort = document.querySelector(".sort");
 const favCount=document.querySelector(".fav-count")
+const goback=document.querySelector(".goback")
 
 let favori=getFavFromStroge()
 calculate(favori.length)
@@ -126,3 +127,7 @@ function getFavFromStroge(){
 function calculate(count){
     favCount.textContent=count
 }
+
+goback.addEventListener("click", function(){
+    window.history.back()
+})

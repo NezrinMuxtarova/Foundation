@@ -1,8 +1,8 @@
 const tbody = document.querySelector("tbody");
 const total = document.querySelector(".total");
 const basketCount = document.querySelector(".basket-count");
-
-let basket = getFavFromStroge();
+const goback=document.querySelector(".goback")
+let basket = getBasketFromStroge();
 calculateBasket();
 
 drawTable(basket);
@@ -11,7 +11,6 @@ function drawTable(data) {
   tbody.innerHTML = "";
   data.forEach((element) => {
     const tr = document.createElement("tr");
- 
     tr.innerHTML = `
         <td>${element.id}</td>
         <td>
@@ -33,45 +32,50 @@ function drawTable(data) {
 }
 
 function incBtn(id, btn) {
-  let inc = basket.find((item) => item.id == id);
-  inc.count += 1;
-  drawTable(basket);
-  setFavFromStroge(basket);
+  let inc = basket.find((item) => item.id === id);
+let incremenet=[inc]
+  inc.count += 1
+
+  drawTable(incremenet);
+  setBasketFromStroge(basket);
   calculateBasket(basket.length);
   totalPrice();
 }
+
 
 function decBtn(id,button) {
-  let dec = basket.find((item) => item.id === id);
-
+  let dec = basket.find((item) => item.id ===id);
+let decremenet=[dec]
   if (dec.count > 1) {
     dec.count -= 1;
+
   } else{
+    console.log(button.closest("tr"));
     button.closest("tr").remove();
 }
-
-  drawTable(basket);
-  setFavFromStroge(basket);
+  drawTable(decremenet);
+  setBasketFromStroge(basket);
   calculateBasket(basket.length);
   totalPrice();
 }
+
 
 function deleteBtn(id, btn) {
   basket = basket.filter((item) => item.id != id);
   btn.closest("tr").remove();
 
-  setFavFromStroge(basket);
+  setBasketFromStroge(basket);
   calculateBasket(basket.length);
   drawTable(basket)
   totalPrice();
 }
 
-function setFavFromStroge(favs) {
-  localStorage.setItem("favs", JSON.stringify(favs));
+function setBasketFromStroge(basket) {
+  localStorage.setItem("basket", JSON.stringify(basket));
 }
 
-function getFavFromStroge() {
-  return JSON.parse(localStorage.getItem("favs")) ?? [];
+function getBasketFromStroge() {
+  return JSON.parse(localStorage.getItem("basket")) ?? [];
 }
 
 function calculateBasket() {
@@ -83,3 +87,8 @@ function totalPrice() {
   total.textContent = sum;
 }
 totalPrice();
+
+
+goback.addEventListener("click", function(){
+    window.history.back()
+})

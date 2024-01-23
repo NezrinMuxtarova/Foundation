@@ -401,11 +401,14 @@ nav{
         .footer-2{
             margin-bottom: 20px;
             .footer-submit{
-                position: relative;
+              position: relative;
+              display: flex;
              width: 100%;
             }
             .email{
-                padding: 8px;
+                padding: 10px;
+                width: 50%;
+               
            
             }
             .subs-btn{
@@ -413,6 +416,7 @@ nav{
                 border: none;
                 background-color: #fd5f00;
                 color: #fff;
+                width: 30%;
             }
         }
         .footer-3{
@@ -489,7 +493,9 @@ nav{
 #heart{
 color: #000;
 }
-
+i{
+    cursor: pointer;
+}
 .to-top{
     opacity: 0;
     position: fixed;
