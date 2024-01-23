@@ -4,6 +4,10 @@ const form = document.querySelector("form");
 const allInput = document.querySelectorAll("input");
 const search = document.querySelector(".search");
 const sort = document.querySelector(".sort");
+const favCount=document.querySelector(".fav-count")
+
+let favori=getFavFromStroge()
+calculate(favori.length)
 
 let array = null;
 let arrayCopy = null;
@@ -80,6 +84,9 @@ async function deleteBtn(id, btn) {
     await axios.delete(`${BASE_URL}/${id}`);
   }
   btn.closest("tr").remove();
+  favori=favori.filter((item)=>item.id!==id)
+  setFavFromStroge(favori)
+  calculate(favori.length)
 }
 
 search.addEventListener("input", function (e) {
@@ -106,3 +113,16 @@ sort.addEventListener("click", function () {
   }
   drawTable(sorted)
 });
+
+
+function setFavFromStroge(favs){
+    localStorage.setItem("favs", JSON.stringify(favs))
+}
+
+function getFavFromStroge(){
+    return JSON.parse(localStorage.getItem("favs")) ?? []
+}
+
+function calculate(count){
+    favCount.textContent=count
+}

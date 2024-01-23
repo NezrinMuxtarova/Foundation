@@ -29,9 +29,9 @@ function drawCard(data) {
        <h5>${element.title}</h5>
        <p>${element.desc}</p>
        <i class="${favori.some((item)=>item.id===element.id) ? "fa-solid fa-heart" : "fa-regular fa-heart"}" onclick=favIcon(${element.id},this)></i>
-       <i class="fa-solid fa-cart-shopping" onclick=basketCount(${element.id},this)></i>
+       <i class="fa-solid fa-cart-shopping" onclick=basketIcon(${element.id},this)></i>
 
-       <a href="details.html?id=${element.id}"><i class="fa-brands fa-readme"></i></a>
+       <a class="details" href="details.html?id=${element.id}"><i class="fa-brands fa-readme"></i></a>
 
    </div>
    </div>
@@ -78,6 +78,20 @@ loadmore.addEventListener("click", function(){
 
 
 
+
+function basketIcon(id,btn){
+    let basketProduct=array.find((item)=>item.id===id)
+    let index=basket.find((item)=>item.id===id)
+    
+    if (index>-1) {
+        basket[index].count=basket[index].count+1 
+    }else{
+        basket.push({count:1, ...basketProduct})
+    }
+    setFavFromStroge(basket)
+    calculateBasket(basket.length)
+}
+
 function setFavFromStroge(favs){
     localStorage.setItem("favs", JSON.stringify(favs))
 }
@@ -92,5 +106,5 @@ function calculate(count){
 
 
 function calculateBasket(){
-basketCount=basket.reduce((acc,curr))
+basketCount.textContent=basket.reduce((acc,curr)=>acc+curr.count,0)
 }
